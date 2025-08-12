@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BetterPaths
 {
@@ -77,7 +78,7 @@ namespace BetterPaths
                 return false;
             if (stringToCheck[1] != VOLUME_SEPARATOR_CHAR || stringToCheck[2] != DIRECTORY_SEPARATOR_CHAR || !s_Base32Char.Contains(stringToCheck.ToLower()[0]))
                 return false;
-            return stringToCheck.ToList().FirstOrDefault(c => InvalidFileNameChars.Contains(c)) != default(char);
+            return InvalidFileNameChars.Any(currentChar => stringToCheck.ToList().GetRange(3, stringToCheck.Length - 3).Contains(currentChar)) == false;
         }
 
         public static string GetExtension(string path)
