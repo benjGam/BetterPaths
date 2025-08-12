@@ -1,5 +1,7 @@
 ﻿using BetterPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace BetterPathTesting
 {
@@ -9,7 +11,24 @@ namespace BetterPathTesting
         [TestMethod]
         public void IsValidPath_Test()
         {
-            Assert.AreEqual(false, BetterPath.IsWellFormedPath("r"), "");
+            Dictionary<string, bool> pathWithExpectedResult = new Dictionary<string, bool>()
+            {
+                { @"C:\", true },
+                { @"c:\", true },
+                { "c", false},
+                { "c:", false },
+                { @"c\", false },
+                { "c:e", false },
+                { $@"C:\>", false },
+
+            }; 
+
+            foreach (KeyValuePair<string, bool> entry in pathWithExpectedResult)
+            {
+                bool callReturn = BetterPath.IsWellFormedPath(entry.Key);
+
+                Assert.AreEqual(entry.Value, callReturn, $"Failed for {entry.Key} value. Expected {entry.Value}, instead got {callReturn}");
+            }
         }
     }
 }
