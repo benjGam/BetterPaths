@@ -79,5 +79,13 @@ namespace BetterPaths
                 return false;
             return stringToCheck.ToList().FirstOrDefault(c => InvalidFileNameChars.Contains(c)) != default(char);
         }
+
+        public static string GetExtension(string path)
+        {
+            if (!IsWellFormedPath(path))
+                return null;
+            int lastDotIndex = path.LastIndexOf('.');
+            return lastDotIndex == -1 ? null : path.Substring(lastDotIndex, path.Length-1);
+        }
     }
 }
