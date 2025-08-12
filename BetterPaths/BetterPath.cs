@@ -72,7 +72,12 @@ namespace BetterPaths
         #endregion
 
         public static bool IsWellFormedPath(string stringToCheck)
-            => stringToCheck.Length >= 3 && stringToCheck[1] == VOLUME_SEPARATOR_CHAR && stringToCheck[2] == DIRECTORY_SEPARATOR_CHAR && s_Base32Char.Contains(stringToCheck.ToLower()[0]);
-        
+        {
+            if (stringToCheck.Length < 3)
+                return false;
+            if (stringToCheck[1] != VOLUME_SEPARATOR_CHAR || stringToCheck[2] != DIRECTORY_SEPARATOR_CHAR || !s_Base32Char.Contains(stringToCheck.ToLower()[0]))
+                return false;
+            return stringToCheck.ToList().FirstOrDefault(c => InvalidFileNameChars.Contains(c)) != default(char);
+        }
     }
 }
