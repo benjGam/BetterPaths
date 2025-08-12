@@ -22,7 +22,7 @@ namespace BetterPaths
 
         #region Separators
 
-        public const string DIRECTORY_SEPARATOR_CHAR_AS_STRING = "\\";
+        public const char DIRECTORY_SEPARATOR_CHAR = '\\';
 
         public const char ALT_DIRECTORY_SEPARAROT_CHAR = '/';
 
@@ -51,6 +51,14 @@ namespace BetterPaths
         '/'
         };
 
+        internal static readonly char[] s_Base32Char = new char[32]
+        {
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+        'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3',
+        '4', '5'
+        };
+
         #endregion
 
         #region Restrictions Consts
@@ -62,5 +70,9 @@ namespace BetterPaths
         public const int MAX_LONG_PATH_LENGTH = 32767;
         #endregion
         #endregion
+
+        public static bool IsWellFormedPath(string stringToCheck)
+            => stringToCheck.Length >= 3 && stringToCheck[1] == VOLUME_SEPARATOR_CHAR && stringToCheck[2] == DIRECTORY_SEPARATOR_CHAR && s_Base32Char.Contains(stringToCheck.ToLower()[0]);
+        
     }
 }
