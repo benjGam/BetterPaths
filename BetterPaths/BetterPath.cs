@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -74,11 +75,12 @@ namespace BetterPaths
 
         public static bool IsWellFormedPath(string stringToCheck)
         {
-            if (stringToCheck.Length < 3)
+            if (string.IsNullOrEmpty(stringToCheck) || stringToCheck.Length < 3)
                 return false;
-            if (stringToCheck[1] != VOLUME_SEPARATOR_CHAR || stringToCheck[2] != DIRECTORY_SEPARATOR_CHAR || !s_Base32Char.Contains(stringToCheck.ToLower()[0]))
-                return false;
-            return InvalidFileNameChars.Any(currentChar => stringToCheck.ToList().GetRange(3, stringToCheck.Length - 3).Contains(currentChar)) == false;
+
+            return new Regex
+                ($"^[a-z]:\\\\[^ {string.Concat(InvalidFileNameChars.Select(c => Regex.Escape(c.ToString())))}]*$",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled).IsMatch(stringToCheck);
         }
 
         public static string GetExtension(string path)
