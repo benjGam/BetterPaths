@@ -75,6 +75,9 @@ namespace BetterPaths
 
         public static bool IsWellFormedPath(string stringToCheck)
         {
+            // Manage Long Path handling
+            // Add max length depending on Long Path preffix presence in base string
+
             if (string.IsNullOrEmpty(stringToCheck) || stringToCheck.Length < 3)
                 return false;
 

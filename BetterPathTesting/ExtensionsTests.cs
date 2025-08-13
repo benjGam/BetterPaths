@@ -20,7 +20,13 @@ namespace BetterPathTesting
                 { @"c\", false },
                 { "c:e", false },
                 { $@"C:\>", false },
-
+                { $@"\\?\", false },
+                { $@"\\?\C", false },
+                { $@"\\?\C:", false },
+                { $@"\\?\C\", false },
+                { $@"\\?\C:\>sed", false },
+                { $@"\\?\C:\", true },
+                { $@"\\?\C:\test", true },
             }; 
 
             foreach (KeyValuePair<string, bool> entry in pathWithExpectedResult)
